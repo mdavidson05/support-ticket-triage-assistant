@@ -1,0 +1,25 @@
+{
+  "name": "python-react-ai-dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
+  ],
+  "updateRemoteUserUID": false,
+  "userEnvProbe": "none",
+  "forwardPorts": [5173, 8000],
+  "postCreateCommand": "bash .devcontainer/post-create.sh"
+}

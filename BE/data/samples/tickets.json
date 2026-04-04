@@ -1,0 +1,137 @@
+[
+    {
+      "ticket_id": "t1",
+      "text": "Customer cannot log in after password reset and says payroll is blocked.",
+      "expected": {
+        "category": "authentication",
+        "urgency": "high",
+        "suggested_team": "account_access"
+      }
+    },
+    {
+      "ticket_id": "t2",
+      "text": "I was charged twice for the same subscription this month.",
+      "expected": {
+        "category": "billing",
+        "urgency": "medium",
+        "suggested_team": "billing_ops"
+      }
+    },
+    {
+      "ticket_id": "t3",
+      "text": "Unable to select desired product from menu.",
+      "expected": {
+        "category": "bug",
+        "urgency": "high",
+        "suggested_team": "support_engineering"
+      }
+    },
+    {
+        "ticket_id": "t4",
+        "text": "The analytics dashboard is taking over 30 seconds to load for every user in our finance team.",
+        "expected": {
+          "category": "performance",
+          "urgency": "high",
+          "suggested_team": "support_engineering"
+        }
+      },
+      {
+        "ticket_id": "t5",
+        "text": "Exporting customer reports to CSV throws an internal server error every time we try it.",
+        "expected": {
+          "category": "bug",
+          "urgency": "high",
+          "suggested_team": "support_engineering"
+        }
+      },
+      {
+        "ticket_id": "t6",
+        "text": "Please add support for scheduled report delivery to email. We need this for our weekly operations review.",
+        "expected": {
+          "category": "feature_request",
+          "urgency": "low",
+          "suggested_team": "product_support"
+        }
+      },
+      {
+        "ticket_id": "t7",
+        "text": "Our admin left the company and we need ownership of the account transferred to a new primary contact.",
+        "expected": {
+          "category": "account_management",
+          "urgency": "medium",
+          "suggested_team": "general_support"
+        }
+      },
+      {
+        "ticket_id": "t8",
+        "text": "The API returns 'invalid token' for all requests even though the token was generated today and has the right scopes.",
+        "expected": {
+          "category": "authentication",
+          "urgency": "high",
+          "suggested_team": "account_access"
+        }
+      },
+      {
+        "ticket_id": "t9",
+        "text": "We cancelled last week but just received another invoice. Please confirm whether the account is still active.",
+        "expected": {
+          "category": "billing",
+          "urgency": "medium",
+          "suggested_team": "billing_ops"
+        }
+      },
+      {
+        "ticket_id": "t10",
+        "text": "Single sign-on login is failing for all employees and nobody can access the platform right now.",
+        "expected": {
+          "category": "authentication",
+          "urgency": "critical",
+          "suggested_team": "account_access"
+        }
+      },
+      {
+        "ticket_id": "t11",
+        "text": "When we try to sync records from Salesforce, only half the contacts are imported and there are no clear error messages.",
+        "expected": {
+          "category": "integration",
+          "urgency": "medium",
+          "suggested_team": "integrations_team"
+        }
+      },
+      {
+        "ticket_id": "t12",
+        "text": "The new UI is confusing and several team members cannot find where to update account settings anymore.",
+        "expected": {
+          "category": "other",
+          "urgency": "low",
+          "suggested_team": "general_support"
+        }
+      },
+      {
+        "ticket_id": "t13",
+        "text": "Refund requested for the annual plan because we were billed after downgrading to monthly.",
+        "expected": {
+          "category": "billing",
+          "urgency": "medium",
+          "suggested_team": "billing_ops"
+        }
+      },
+      {
+        "ticket_id": "t14",
+        "text": "The mobile app crashes immediately after tapping the notifications tab on iOS 18.",
+        "expected": {
+          "category": "bug",
+          "urgency": "medium",
+          "suggested_team": "support_engineering"
+        }
+      },
+      {
+        "ticket_id": "t15",
+        "text": "We need a way to restrict dashboard access by department so managers only see their own team's data.",
+        "expected": {
+          "category": "feature_request",
+          "urgency": "medium",
+          "suggested_team": "product_support"
+        }
+      }
+  ]

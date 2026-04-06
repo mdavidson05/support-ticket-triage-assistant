@@ -1,4 +1,5 @@
 import anthropic
+from BE.app.services.warnings import generate_warnings
 from app.prompts.triage_prompt import TRIAGE_PROMPT_TEMPLATE
 from app.services.llm_client import client
 from app.models.ticket import TicketTriage
@@ -30,7 +31,9 @@ def triage_ticket_with_llm(ticket_text: str) -> TicketTriage:
         messages=[{"role": "user", "content": ticket_text}]
     )
         parsed = response.content[0].input
-        return TicketTriage(**parsed)
+        triage = TicketTriage(**parsed)
+        triage.warnings = generate_warnings(ticket_text, triage)
+        return triage
 
     except anthropic.APIError as e:
         raise HTTPException(status_code=500, detail=f"API Error: {str(e)}")

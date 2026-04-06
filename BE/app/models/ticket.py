@@ -25,3 +25,4 @@ class TicketTriage(BaseModel):
     sentiment: Literal["calm", "frustrated", "angry", "neutral"]
     summary: str
     recommended_next_action: str
+    warnings: list[str] = []

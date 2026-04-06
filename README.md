@@ -13,7 +13,8 @@ This project is being built as a portfolio project to learn and demonstrate Appl
 - full-stack AI application development
 
 ---
-
+# Commands
+ - Run Dev Server - uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ## Purpose
 
 Support teams often receive messy, inconsistent free-text tickets. Before a human can act, someone usually needs to:
@@ -253,6 +254,16 @@ analytics dashboard for triage outcomes
 model comparison across prompts or providers
 Status
 
-Current status: planning and setup.
+Current status: In progress
 
 This README will be updated as the project is built.
+
+### Key Design Decisions
+
+I chose Haiku because classification doesn't require frontier reasoning capability, and it keeps cost and latency low.
+However, I later discovered there to be a tradeoff which in the end I was comfortable making. Haiku, given that it was
+trained using data from StackOverflow, Github etc that it always uses code fences when returning a JSON output, meaning that 
+initially I had to manually strip each response. I was surprised as I had included the instructions and JSON SCHEMA in the Prompt
+Template however Haiku can default to it's training pattern despite instruction. The compromise was to remove the instruction 
+and JSON schema out of the template and to use tool calling instead, thus avoiding the code fencing issue as the model fills in
+a structured input object instead of producing text itself.

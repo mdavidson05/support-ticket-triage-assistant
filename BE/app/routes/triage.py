@@ -1,6 +1,8 @@
+from http.client import HTTPException
 from fastapi import APIRouter
 from pydantic import BaseModel
 from app.models.ticket import TicketTriage
+from app.services.triage_service import triage_ticket_with_llm
 
 router = APIRouter(prefix="/api", tags=["triage"])
 
@@ -11,11 +13,7 @@ class TriageRequest(BaseModel):
 
 @router.post("/triage", response_model=TicketTriage)
 def triage_ticket(request: TriageRequest):
-    return TicketTriage(
-        category="authentication",
-        urgency="high",
-        suggested_team="account_access",
-        sentiment="frustrated",
-        summary="Customer cannot log in after password reset.",
-        recommended_next_action="Investigate account access issue and verify password reset flow."
-    )
+    try:
+        return triage_ticket_with_llm(request.ticket_text)
+    except Exception as e:
+        raise HTTPException(500, str(e))

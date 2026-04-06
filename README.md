@@ -266,4 +266,6 @@ trained using data from StackOverflow, Github etc that it always uses code fence
 initially I had to manually strip each response. I was surprised as I had included the instructions and JSON SCHEMA in the Prompt
 Template however Haiku can default to it's training pattern despite instruction. The compromise was to remove the instruction 
 and JSON schema out of the template and to use tool calling instead, thus avoiding the code fencing issue as the model fills in
-a structured input object instead of producing text itself.
+a structured input object instead of producing text itself. A further benefit to using the tooling approach is that the model could 
+still returned malformed JSON, missing required field or wrong enum values using a text-based approach but none of those failure modes
+exist when using tooling. This eliminates the need for a retry prompt template and format validation. 

@@ -1,5 +1,5 @@
 import anthropic
-from BE.app.services.warnings import generate_warnings
+from app.services.warnings import generate_warnings
 from app.prompts.triage_prompt import TRIAGE_PROMPT_TEMPLATE
 from app.services.llm_client import client
 from app.models.ticket import TicketTriage

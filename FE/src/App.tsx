@@ -15,6 +15,13 @@ interface TriageResult {
   warnings: string[]
 }
 
+const SAMPLE_TICKETS: Record<string, string> = {
+  'Login issue': "I can't log into my account. I've tried resetting my password twice but I never receive the reset email. This is blocking me from accessing my work.",
+  'Billing problem': "I was charged twice for my subscription this month. My card ending in 4242 shows two identical charges of $49.99 on the 1st. Please refund the duplicate charge.",
+  'Integration failure': "Our Zapier integration with your API stopped working yesterday. We're getting 401 Unauthorized errors on every request. Our API key hasn't changed and this was working fine last week.",
+  'Feature request': "It would be really useful to have bulk export functionality. We manage hundreds of records and currently have to export them one by one which takes a very long time.",
+}
+
 const urgencyColour: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
   low: 'secondary',
   medium: 'outline',
@@ -53,24 +60,45 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="min-h-screen bg-muted/40">
 
+      {/* Header */}
+      <header className="border-b bg-background px-8 py-4">
+        <h1 className="text-lg font-semibold tracking-tight">Support ticket triage</h1>
+      </header>
+
+      <main className="max-w-2xl mx-auto px-8 py-10 space-y-6">
+
+        {/* Sample tickets */}
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Support ticket triage</h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Paste a support ticket below and get an instant AI triage analysis.
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+            Not sure what to ask? Try a sample ticket
           </p>
+          <div className="flex flex-wrap gap-2">
+            {Object.keys(SAMPLE_TICKETS).map((label) => (
+              <Button
+                key={label}
+                variant="outline"
+                size="sm"
+                onClick={() => setTicketText(SAMPLE_TICKETS[label])}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
         </div>
 
+        <hr />
+
+        {/* Input */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Ticket</CardTitle>
+            <CardTitle className="text-sm font-medium">Ticket</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
-              placeholder="Paste support ticket text here..."
-              className="min-h-32 resize-none"
+              placeholder="Write your support request here..."
+              className="min-h-36 resize-none"
               value={ticketText}
               onChange={(e) => setTicketText(e.target.value)}
             />
@@ -84,16 +112,28 @@ function App() {
           </CardContent>
         </Card>
 
+        {/* Error */}
         {error && (
           <Alert variant="destructive">
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
 
+        {/* Result */}
         {result && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Triage result</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium">Triage result</CardTitle>
+                <div className="flex flex-wrap gap-1.5">
+                  <Badge variant={urgencyColour[result.urgency] ?? 'outline'}>
+                    {result.urgency}
+                  </Badge>
+                  <Badge variant="outline">{result.category}</Badge>
+                  <Badge variant="outline">{result.sentiment}</Badge>
+                  <Badge variant="secondary">{result.suggested_team}</Badge>
+                </div>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4">
 
@@ -109,26 +149,17 @@ function App() {
                 </Alert>
               )}
 
-              <div className="flex flex-wrap gap-2">
-                <Badge variant={urgencyColour[result.urgency] ?? 'outline'}>
-                  {result.urgency}
-                </Badge>
-                <Badge variant="outline">{result.category}</Badge>
-                <Badge variant="outline">{result.sentiment}</Badge>
-                <Badge variant="secondary">{result.suggested_team}</Badge>
-              </div>
-
-              <div className="space-y-3 text-sm">
-                <div>
-                  <p className="text-muted-foreground font-medium mb-0.5">Summary</p>
+              <div className="divide-y text-sm">
+                <div className="py-3 first:pt-0">
+                  <p className="text-muted-foreground font-medium mb-1">Summary</p>
                   <p>{result.summary}</p>
                 </div>
-                <div>
-                  <p className="text-muted-foreground font-medium mb-0.5">Recommended action</p>
+                <div className="py-3">
+                  <p className="text-muted-foreground font-medium mb-1">Recommended action</p>
                   <p>{result.recommended_next_action}</p>
                 </div>
-                <div>
-                  <p className="text-muted-foreground font-medium mb-0.5">Assigned team</p>
+                <div className="py-3 last:pb-0">
+                  <p className="text-muted-foreground font-medium mb-1">Assigned team</p>
                   <p>{result.suggested_team}</p>
                 </div>
               </div>
@@ -137,7 +168,7 @@ function App() {
           </Card>
         )}
 
-      </div>
+      </main>
     </div>
   )
 }

@@ -1,31 +1,24 @@
 # Support Ticket Triage Assistant
 
-An AI-powered internal support tool that reads raw support tickets and returns structured triage data such as category, urgency, suggested team, sentiment, summary, and recommended next action.
+An AI-powered internal support tool that reads raw support tickets and returns structured triage data: category, urgency, suggested team, sentiment, summary, and recommended next action.
 
-This project is being built as a portfolio project to learn and demonstrate Applied AI engineering skills, especially:
+This project is being built as a portfolio project to learn and demonstrate applied AI engineering skills, including:
 
 - LLM API integration
-- prompt design
-- structured JSON output
-- schema validation
-- retry and error handling
-- evaluation of model outputs
-- full-stack AI application development
+- Prompt design
+- Structured JSON output
+- Schema validation
+- Retry and error handling
+- Evaluation of model outputs
+- Full-stack AI application development
 
 ---
-# Commands
- - Run Dev Server - uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
 ## Purpose
 
-Support teams often receive messy, inconsistent free-text tickets. Before a human can act, someone usually needs to:
+Support teams often receive messy, inconsistent free-text tickets. Before a human can act, someone usually needs to understand the issue, determine urgency, route it to the right team, summarize it, and recommend next steps.
 
-- understand the issue
-- determine urgency
-- route it to the right team
-- summarize it
-- recommend next steps
-
-This project explores how an LLM can help automate that first-pass triage step while still keeping outputs structured, reviewable, and safe for downstream systems.
+This project explores how an LLM can help automate that first-pass triage step while keeping outputs structured, reviewable, and safe for downstream systems.
 
 The goal is not to build a chatbot. The goal is to build a reliable AI-assisted workflow component.
 
@@ -50,222 +43,188 @@ The app accepts a support ticket written in plain text and returns structured tr
   "summary": "Customer cannot log in after a password reset and says the issue is blocking payroll processing.",
   "recommended_next_action": "Prioritize account access investigation and verify the password reset flow."
 }
+```
 
-Planned Features
-paste ticket text into a UI
-send ticket text to a Python backend
-call an LLM API to classify and summarize the ticket
-return structured JSON
-validate the response against a strict schema
-retry once if formatting is invalid
-display results in a simple frontend
-show warnings and validation issues
-evaluate performance on a small sample dataset
-Scope
-In scope for v1
-one support ticket at a time
-plain text input
-one backend triage endpoint
-one schema for structured output
-one retry path for invalid JSON
-a simple frontend
-a small local evaluation dataset
-local development with Docker and a devcontainer
-Out of scope for v1
-user authentication
-ticketing system integrations
-database persistence
-batch processing
-model fine-tuning
-RAG or retrieval
-agent workflows
-production deployment
-Output Schema
+---
 
-The model will return a structured object containing:
+## Running the App
 
-category
-urgency
-suggested_team
-sentiment
-summary
-recommended_next_action
-Planned category values
-authentication
-billing
-bug
-feature_request
-account_management
-integration
-performance
-other
-Planned urgency values
-low
-medium
-high
-critical
-Planned sentiment values
-calm
-frustrated
-angry
-neutral
-Planned suggested team values
-account_access
-billing_ops
-support_engineering
-product_support
-integrations_team
-general_support
-Architecture
-High-level architecture
+**Backend**
+```bash
+cd BE
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+**Frontend**
+```bash
+cd FE
+npm run dev -- --host 0.0.0.0
+```
+
+**Eval script**
+```bash
+cd BE
+python -m app.eval
+```
+
+---
+
+## Output Schema
+
+The model returns a structured object containing:
+
+| Field | Values |
+|-------|--------|
+| `category` | `authentication` `billing` `bug` `feature_request` `account_management` `integration` `performance` `other` |
+| `urgency` | `low` `medium` `high` `critical` |
+| `sentiment` | `calm` `frustrated` `angry` `neutral` |
+| `suggested_team` | `account_access` `billing_ops` `support_engineering` `product_support` `integrations_team` `general_support` |
+| `summary` | Free text — one concise sentence |
+| `recommended_next_action` | Free text — practical next step |
+
+---
+
+## Architecture
+
+```
 React frontend
-   |
-   v
+      |
+      v
 FastAPI backend
-   |
-   v
+      |
+      v
 Prompt builder + LLM client
-   |
-   v
+      |
+      v
 Pydantic validation layer
-   |
-   v
+      |
+      v
 Structured response + warnings
-Flow
-User submits support ticket text
-Backend builds a triage prompt
-Backend sends the prompt to an LLM API
-Model returns structured output
-Backend validates the output with Pydantic
-If needed, backend retries once for formatting or schema repair
-Frontend displays the triage result
-Tech Stack
-Backend
-Python
-FastAPI
-Pydantic
-Frontend
-React
-TypeScript
-AI layer
-hosted LLM API
-prompt-based structured classification
-Dev environment
-Docker Desktop
-VS Code devcontainer
-Project Structure
-support-ticket-triage-assistant/
-  backend/
-    app/
-      routes/
-      models/
-      services/
-      prompts/
-    data/
-      samples/
-      logs/
-  frontend/
-  .devcontainer/
-  README.md
-  .gitignore
-Evaluation Plan
+```
 
-A small evaluation dataset will be created with sample support tickets and expected outputs.
+**Request flow:**
+1. User submits support ticket text
+2. Backend builds a triage prompt
+3. Backend sends the prompt to Claude via the Anthropic API
+4. Model returns structured output via tool use
+5. Backend validates the output with Pydantic
+6. Warnings are generated for edge cases
+7. Frontend displays the triage result
 
-The first evaluation will focus on fields that are easiest to score objectively:
+---
 
-category
-urgency
-suggested_team
+## Tech Stack
 
-Later evaluation may include:
+| Layer | Technology |
+|-------|------------|
+| Backend | Python, FastAPI, Pydantic |
+| Frontend | React, TypeScript, shadcn/ui |
+| AI | Claude Haiku (Anthropic API), tool use for structured output |
+| Dev environment | Docker Desktop, VS Code devcontainer |
 
-sentiment
-summary quality
-recommended next action usefulness
-Metrics to track
-valid JSON rate
-schema validation pass rate
-category accuracy
-urgency accuracy
-suggested team accuracy
-retry rate
-common failure modes
-Development Plan
-define the schema
-create sample tickets
-build a fake backend response first
-replace the fake response with a real LLM call
-validate output
-add retry logic
-build the frontend
-create an evaluation script
-polish and document the project
-Design Principles
-structured over chatty
-honest over complete
-validate model output
-keep the first version narrow
-treat this like a real product component
-Planned Milestones
-Milestone 1
-create repo structure
-write README
-define triage schema
-Milestone 2
-create sample ticket dataset
-define expected outputs
-Milestone 3
-build FastAPI app
-add health route
-add fake triage endpoint
-Milestone 4
-write prompt template
-connect LLM API
-return structured triage output
-Milestone 5
-add schema validation
-add retry logic
-add warnings for edge cases
-Milestone 6
-build React frontend
-show input and output cleanly
-Milestone 7
-add evaluation script
-measure baseline quality
-Milestone 8
-polish README
-document tradeoffs and limitations
-record a demo
-Known Limitations
-no real ticketing platform integration
-no customer or account history
-no fine-tuning
-no production deployment
-output quality depends on prompt design and model behavior
-some fields like summary quality are harder to evaluate objectively
-Future Improvements
-batch triage for multiple tickets
-human review flag for uncertain outputs
-confidence or ambiguity indicators
-integration with a mock ticket queue
-editable review UI
-analytics dashboard for triage outcomes
-model comparison across prompts or providers
-Status
+---
 
-Current status: In progress
+## Scope
 
-This README will be updated as the project is built.
+**In scope for v1**
+- One support ticket at a time
+- Plain text input
+- One backend triage endpoint
+- One schema for structured output
+- A simple frontend
+- A small local evaluation dataset
 
-### Key Design Decisions
+**Out of scope for v1**
+- User authentication
+- Ticketing system integrations
+- Database persistence
+- Batch processing
+- Model fine-tuning
+- RAG or retrieval
+- Agent workflows
+- Production deployment
 
-I chose Haiku because classification doesn't require frontier reasoning capability, and it keeps cost and latency low.
-However, I later discovered there to be a tradeoff which in the end I was comfortable making. Haiku, given that it was
-trained using data from StackOverflow, Github etc that it always uses code fences when returning a JSON output, meaning that 
-initially I had to manually strip each response. I was surprised as I had included the instructions and JSON SCHEMA in the Prompt
-Template however Haiku can default to it's training pattern despite instruction. The compromise was to remove the instruction 
-and JSON schema out of the template and to use tool calling instead, thus avoiding the code fencing issue as the model fills in
-a structured input object instead of producing text itself. A further benefit to using the tooling approach is that the model could 
-still returned malformed JSON, missing required field or wrong enum values using a text-based approach but none of those failure modes
-exist when using tooling. This eliminates the need for a retry prompt template and format validation. 
+---
+
+## Key Design Decisions
+
+### Tool use instead of text-based prompting
+
+I chose Claude Haiku because classification doesn't require frontier reasoning capability, and it keeps cost and latency low. However, when prompting Haiku to return JSON as text, it consistently wrapped the output in code fences — a pattern from its training data (StackOverflow, GitHub, etc.) that persisted even when the prompt explicitly instructed otherwise.
+
+The fix was to switch to tool use. Instead of generating text, the model fills in a structured input object defined by a JSON schema. This eliminates the code-fencing problem and removes a wider class of failure modes: malformed JSON, missing required fields, and invalid enum values are all impossible when the model is constrained to a schema. This also removed the need for a retry path and format validation logic.
+
+### Prompt context matters for consistent classification
+
+The initial system prompt was intentionally minimal. The first eval run (see below) revealed that urgency was by far the most inconsistent field. The model had no company context and no explicit definitions for urgency levels, so it applied generic heuristics and tended to over-escalate — presumably because overestimating urgency is safer than underestimating it.
+
+The fix is to add a company persona and explicit urgency criteria to the system prompt, giving the model the context it needs to assess business impact consistently.
+
+---
+
+## Evaluation
+
+The eval script (`BE/app/eval.py`) runs sample tickets through the live model and scores three fields against expected values: `category`, `urgency`, and `suggested_team`.
+
+### First Run — Baseline Results
+
+Run against 15 tickets before any prompt tuning.
+
+**Result: 6/15 passed (40%)**
+
+| Ticket | Result | Failing Fields |
+|--------|--------|----------------|
+| t1 | PASS | — |
+| t2 | PASS | — |
+| t3 | FAIL | urgency |
+| t4 | PASS | — |
+| t5 | PASS | — |
+| t6 | FAIL | urgency |
+| t7 | FAIL | suggested_team |
+| t8 | FAIL | urgency |
+| t9 | FAIL | urgency |
+| t10 | PASS | — |
+| t11 | FAIL | urgency |
+| t12 | FAIL | category, urgency, suggested_team |
+| t13 | FAIL | urgency |
+| t14 | FAIL | urgency |
+| t15 | PASS | — |
+
+**Field-level mismatches:**
+
+| Ticket | Field | Expected | Actual |
+|--------|-------|----------|--------|
+| t3 | urgency | high | medium |
+| t6 | urgency | low | medium |
+| t7 | suggested_team | general_support | account_access |
+| t8 | urgency | critical | high |
+| t9 | urgency | medium | high |
+| t11 | urgency | medium | high |
+| t12 | category | other | feature_request |
+| t12 | urgency | low | medium |
+| t12 | suggested_team | general_support | product_support |
+| t13 | urgency | medium | high |
+| t14 | urgency | medium | high |
+
+**Analysis**
+
+Urgency accounts for 8 of the 9 failing tickets. The model consistently skews higher than expected — rating `medium` tickets as `high`, and `low` tickets as `medium`. The root cause is a lack of prompt context: without knowing what the product does or which workflows are business-critical, the model falls back on generic rules of thumb and tends to over-escalate, presumably because overestimating urgency is safer than underestimating it.
+
+The fix is to add explicit urgency definitions and a company persona to the system prompt so the model can assess business impact accurately. See `NEXT_STEPS.md` for the full improvement plan.
+
+---
+
+## Known Limitations
+
+- No real ticketing platform integration
+- No customer or account history
+- No fine-tuning
+- No production deployment
+- Output quality depends on prompt design and model behavior
+- Some fields (summary quality, recommended action usefulness) are harder to evaluate objectively
+
+---
+
+## Status
+
+**Current status: In progress**

@@ -4,7 +4,7 @@
       "text": "Customer cannot log in after password reset and says payroll is blocked.",
       "expected": {
         "category": "authentication",
-        "urgency": "high",
+        "urgency": "critical",
         "suggested_team": "account_access"
       }
     },
@@ -13,7 +13,7 @@
       "text": "I was charged twice for the same subscription this month.",
       "expected": {
         "category": "billing",
-        "urgency": "medium",
+        "urgency": "high",
         "suggested_team": "billing_ops"
       }
     },
@@ -58,7 +58,7 @@
         "text": "Our admin left the company and we need ownership of the account transferred to a new primary contact.",
         "expected": {
           "category": "account_management",
-          "urgency": "medium",
+          "urgency": "high",
           "suggested_team": "general_support"
         }
       },
@@ -67,7 +67,7 @@
         "text": "The API returns 'invalid token' for all requests even though the token was generated today and has the right scopes.",
         "expected": {
           "category": "authentication",
-          "urgency": "high",
+          "urgency": "critical",
           "suggested_team": "account_access"
         }
       },

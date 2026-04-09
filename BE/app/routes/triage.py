@@ -1,5 +1,4 @@
-from http.client import HTTPException
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from app.models.ticket import TicketTriage
 from app.services.triage_service import triage_ticket_with_llm

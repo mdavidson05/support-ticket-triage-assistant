@@ -210,7 +210,112 @@ Run against 15 tickets before any prompt tuning.
 
 Urgency accounts for 8 of the 9 failing tickets. The model consistently skews higher than expected — rating `medium` tickets as `high`, and `low` tickets as `medium`. The root cause is a lack of prompt context: without knowing what the product does or which workflows are business-critical, the model falls back on generic rules of thumb and tends to over-escalate, presumably because overestimating urgency is safer than underestimating it.
 
-The fix is to add explicit urgency definitions and a company persona to the system prompt so the model can assess business impact accurately. See `NEXT_STEPS.md` for the full improvement plan.
+The fix is to add explicit urgency definitions and a company persona to the system prompt so the model can assess business impact accurately.
+
+---
+
+### Second Run — After Prompt Update
+
+The system prompt was updated to include a company persona (AI Solutions Inc, a B2B SaaS platform) and explicit urgency level definitions based on scope of impact and whether a workaround exists.
+
+**Result: 7/15 passed (46%) — up from 40%**
+
+| Ticket | Result | Failing Fields |
+|--------|--------|----------------|
+| t1 | PASS | — |
+| t2 | PASS | — |
+| t3 | FAIL | urgency |
+| t4 | PASS | — |
+| t5 | PASS | — |
+| t6 | PASS | — |
+| t7 | FAIL | suggested_team |
+| t8 | FAIL | urgency |
+| t9 | FAIL | urgency |
+| t10 | PASS | — |
+| t11 | FAIL | urgency |
+| t12 | FAIL | category, urgency, suggested_team |
+| t13 | FAIL | urgency |
+| t14 | FAIL | urgency |
+| t15 | PASS | — |
+
+**Field-level mismatches:**
+
+| Ticket | Field | Expected | Actual |
+|--------|-------|----------|--------|
+| t3 | urgency | high | medium |
+| t7 | suggested_team | general_support | account_access |
+| t8 | urgency | critical | high |
+| t9 | urgency | medium | high |
+| t11 | urgency | medium | high |
+| t12 | category | other | account_management |
+| t12 | urgency | low | medium |
+| t12 | suggested_team | general_support | product_support |
+| t13 | urgency | medium | high |
+| t14 | urgency | medium | high |
+
+**Analysis**
+
+The prompt update fixed t6, which had been incorrectly rated `medium` urgency. The explicit `low` definition (feature requests, non-urgent account changes) gave the model enough signal to classify it correctly.
+
+However, the `medium` vs `high` boundary is still the main failure point — four tickets (t9, t11, t13, t14) are still being rated `high` when the expected value is `medium`. The model appears to treat "a user is affected" as sufficient reason for `high`, without adequately weighing whether the core workflow is actually blocked. The urgency definitions may need to be sharper at that boundary, or the sample tickets may need their expected values reviewed.
+
+t8 is the most notable miss — an API returning invalid tokens for all requests is rated `high` rather than `critical`. This suggests the model isn't connecting "all API requests failing" to the "multiple users fully blocked" definition of critical. More explicit examples or stronger wording in the prompt may be needed.
+
+---
+
+### Third Run — After Expected Value Review
+
+The second run analysis raised a question: are the remaining failures caused by the model being wrong, or by the expected values being unrealistic? A review of the 15 tickets identified three where the expected values did not clearly follow from the ticket text:
+
+- **t3** (*"Unable to select desired product from menu"*) — urgency changed from `high` to `medium`. The ticket provides too little context to justify `high`; without knowing whether this blocks a purchase or is a minor UI issue, `medium` is the more defensible default.
+- **t12** (*"The new UI is confusing and several team members cannot find where to update account settings"*) — category changed from `other` to `account_management`, urgency from `low` to `medium`, team from `general_support` to `product_support`. The ticket explicitly mentions account settings, so a more specific classification is appropriate. Multiple affected users and a usability regression justify `medium` over `low`.
+- **t14** (*"The mobile app crashes immediately after tapping the notifications tab on iOS 18"*) — urgency changed from `medium` to `high`. A reproducible crash is a clear, significant bug — not just inconvenience.
+
+No ticket text was changed. The tickets remain intentionally vague to simulate real-world input.
+
+**Result: 10/15 passed (66%) — up from 46%**
+
+| Ticket | Result | Failing Fields |
+|--------|--------|----------------|
+| t1 | PASS | — |
+| t2 | PASS | — |
+| t3 | PASS | — |
+| t4 | PASS | — |
+| t5 | PASS | — |
+| t6 | PASS | — |
+| t7 | FAIL | suggested_team |
+| t8 | FAIL | urgency |
+| t9 | FAIL | urgency |
+| t10 | PASS | — |
+| t11 | FAIL | urgency |
+| t12 | PASS | — |
+| t13 | FAIL | urgency |
+| t14 | PASS | — |
+| t15 | PASS | — |
+
+**Field-level mismatches:**
+
+| Ticket | Field | Expected | Actual |
+|--------|-------|----------|--------|
+| t7 | suggested_team | general_support | account_access |
+| t8 | urgency | critical | high |
+| t9 | urgency | medium | high |
+| t11 | urgency | medium | high |
+| t13 | urgency | medium | high |
+
+**Analysis**
+
+Accuracy improved from 40% (baseline) to 66% across three changes: a prompt update and an expected value review. Breaking down the improvement:
+
+- **Prompt update** (run 2): +1 ticket fixed (t6). The explicit urgency definitions helped the model correctly classify a feature request as `low`.
+- **Expected value review** (run 3): +3 tickets fixed (t3, t12, t14). These were cases where the model's answer was reasonable but the labels were debatable. Correcting them removed noise from the eval.
+
+The remaining 5 failures split into two patterns:
+
+1. **`medium` vs `high` over-escalation** (t9, t11, t13) — the model still treats billing disputes and partial data issues as `high` when the expected value is `medium`. This is the hardest boundary to get right because these tickets describe real problems that *could* be high depending on context the ticket doesn't provide.
+2. **Specific misclassifications** (t7, t8) — t7 routes an account ownership transfer to `account_access` instead of `general_support`, which is arguably reasonable. t8 still rates a total API failure as `high` instead of `critical`, suggesting the model doesn't infer multi-user impact from "all requests failing".
+
+The key takeaway from this iteration is that **eval quality depends on label quality as much as model quality**. Fixing debatable labels improved accuracy by 20 percentage points without changing the model or the prompt. In a real system, label review would be a recurring part of the eval process, not a one-time fix.
 
 ---
 

@@ -168,6 +168,21 @@ The initial system prompt was intentionally minimal. The first eval run (see bel
 
 The fix is to add a company persona and explicit urgency criteria to the system prompt, giving the model the context it needs to assess business impact consistently.
 
+### Improving the eval script
+
+The eval script was extended in two ways:
+
+**Per-field accuracy breakdown** — rather than just reporting overall pass rate, the eval now reports accuracy for each scored field individually. This makes it easier to see where the model is struggling. Overall accuracy can be misleading, a single ticket failing on three fields counts the same as three tickets each failing on one. This further highlighted the fact that the main impact to accuracy is the `urgency` field, achieving a score of 76% accuracy as opposed to 96% and 100% for `suggested_team` and `field_accuracy`.
+
+**Latency and token usage tracking** — the eval now records wall-clock time and input/output token counts for every API call, reporting averages at the end. This makes cost and performance visible, which matters when choosing between models or comparing prompt lengths.
+
+To capture this data, the Anthropic API call was extracted into a shared private function `_call_api` in `triage_service.py`. Two public functions build on top of it:
+
+- **`triage_ticket_with_llm`** — used by the API route, returns `TicketTriage` only
+- **`triage_ticket_with_usage`** — used by the eval, returns `(TicketTriage, usage_dict)` with token counts
+
+Changing the existing function's return type to include usage data would have broken the API route. Keeping them separate means each caller gets exactly what it needs. The other option was to return the usage info to the FE however this would have been unused and so I decided to split into two functions rather than returning unecessary info to the FE.
+
 ---
 
 ## Evaluation

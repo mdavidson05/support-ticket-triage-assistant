@@ -1,0 +1,436 @@
+{
+  "timestamp": "2026-04-11_131124",
+  "total": 15,
+  "passed": 10,
+  "accuracy_pct": 66,
+  "field_accuracy": {
+    "category": {
+      "passed": 15,
+      "total": 15,
+      "accuracy_pct": 100
+    },
+    "urgency": {
+      "passed": 11,
+      "total": 15,
+      "accuracy_pct": 73
+    },
+    "suggested_team": {
+      "passed": 14,
+      "total": 15,
+      "accuracy_pct": 93
+    }
+  },
+  "usage": {
+    "input_tokens": 16847,
+    "output_tokens": 2683,
+    "latencies_ms": [
+      1749,
+      1507,
+      1744,
+      2764,
+      2255,
+      1439,
+      1846,
+      1835,
+      1742,
+      1945,
+      2352,
+      1478,
+      1802,
+      1739,
+      1950
+    ]
+  },
+  "tickets": [
+    {
+      "ticket_id": "t1",
+      "fields": {
+        "category": {
+          "expected": "authentication",
+          "actual": "authentication",
+          "match": true
+        },
+        "urgency": {
+          "expected": "critical",
+          "actual": "critical",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "account_access",
+          "actual": "account_access",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1749,
+      "usage": {
+        "input_tokens": 1119,
+        "output_tokens": 171
+      }
+    },
+    {
+      "ticket_id": "t2",
+      "fields": {
+        "category": {
+          "expected": "billing",
+          "actual": "billing",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "billing_ops",
+          "actual": "billing_ops",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1507,
+      "usage": {
+        "input_tokens": 1116,
+        "output_tokens": 182
+      }
+    },
+    {
+      "ticket_id": "t3",
+      "fields": {
+        "category": {
+          "expected": "bug",
+          "actual": "bug",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "medium",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1744,
+      "usage": {
+        "input_tokens": 1113,
+        "output_tokens": 180
+      }
+    },
+    {
+      "ticket_id": "t4",
+      "fields": {
+        "category": {
+          "expected": "performance",
+          "actual": "performance",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 2764,
+      "usage": {
+        "input_tokens": 1125,
+        "output_tokens": 186
+      }
+    },
+    {
+      "ticket_id": "t5",
+      "fields": {
+        "category": {
+          "expected": "bug",
+          "actual": "bug",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 2255,
+      "usage": {
+        "input_tokens": 1123,
+        "output_tokens": 190
+      }
+    },
+    {
+      "ticket_id": "t6",
+      "fields": {
+        "category": {
+          "expected": "feature_request",
+          "actual": "feature_request",
+          "match": true
+        },
+        "urgency": {
+          "expected": "low",
+          "actual": "low",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "product_support",
+          "actual": "product_support",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1439,
+      "usage": {
+        "input_tokens": 1124,
+        "output_tokens": 170
+      }
+    },
+    {
+      "ticket_id": "t7",
+      "fields": {
+        "category": {
+          "expected": "account_management",
+          "actual": "account_management",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "general_support",
+          "actual": "account_access",
+          "match": false
+        }
+      },
+      "pass": false,
+      "latency_ms": 1846,
+      "usage": {
+        "input_tokens": 1124,
+        "output_tokens": 175
+      }
+    },
+    {
+      "ticket_id": "t8",
+      "fields": {
+        "category": {
+          "expected": "authentication",
+          "actual": "authentication",
+          "match": true
+        },
+        "urgency": {
+          "expected": "critical",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "account_access",
+          "actual": "account_access",
+          "match": true
+        }
+      },
+      "pass": false,
+      "latency_ms": 1835,
+      "usage": {
+        "input_tokens": 1130,
+        "output_tokens": 180
+      }
+    },
+    {
+      "ticket_id": "t9",
+      "fields": {
+        "category": {
+          "expected": "billing",
+          "actual": "billing",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "billing_ops",
+          "actual": "billing_ops",
+          "match": true
+        }
+      },
+      "pass": false,
+      "latency_ms": 1742,
+      "usage": {
+        "input_tokens": 1124,
+        "output_tokens": 180
+      }
+    },
+    {
+      "ticket_id": "t10",
+      "fields": {
+        "category": {
+          "expected": "authentication",
+          "actual": "authentication",
+          "match": true
+        },
+        "urgency": {
+          "expected": "critical",
+          "actual": "critical",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "account_access",
+          "actual": "account_access",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1945,
+      "usage": {
+        "input_tokens": 1124,
+        "output_tokens": 175
+      }
+    },
+    {
+      "ticket_id": "t11",
+      "fields": {
+        "category": {
+          "expected": "integration",
+          "actual": "integration",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "integrations_team",
+          "actual": "integrations_team",
+          "match": true
+        }
+      },
+      "pass": false,
+      "latency_ms": 2352,
+      "usage": {
+        "input_tokens": 1130,
+        "output_tokens": 177
+      }
+    },
+    {
+      "ticket_id": "t12",
+      "fields": {
+        "category": {
+          "expected": "account_management",
+          "actual": "account_management",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "medium",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "product_support",
+          "actual": "product_support",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1478,
+      "usage": {
+        "input_tokens": 1124,
+        "output_tokens": 173
+      }
+    },
+    {
+      "ticket_id": "t13",
+      "fields": {
+        "category": {
+          "expected": "billing",
+          "actual": "billing",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "billing_ops",
+          "actual": "billing_ops",
+          "match": true
+        }
+      },
+      "pass": false,
+      "latency_ms": 1802,
+      "usage": {
+        "input_tokens": 1125,
+        "output_tokens": 178
+      }
+    },
+    {
+      "ticket_id": "t14",
+      "fields": {
+        "category": {
+          "expected": "bug",
+          "actual": "bug",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1739,
+      "usage": {
+        "input_tokens": 1121,
+        "output_tokens": 178
+      }
+    },
+    {
+      "ticket_id": "t15",
+      "fields": {
+        "category": {
+          "expected": "feature_request",
+          "actual": "feature_request",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "medium",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "product_support",
+          "actual": "product_support",
+          "match": true
+        }
+      },
+      "pass": true,
+      "latency_ms": 1950,
+      "usage": {
+        "input_tokens": 1125,
+        "output_tokens": 188
+      }
+    }
+  ]
+}

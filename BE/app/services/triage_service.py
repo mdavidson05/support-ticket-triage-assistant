@@ -5,12 +5,12 @@ from app.services.llm_client import client
 from app.models.ticket import TicketTriage
 from fastapi import HTTPException
 
-def triage_ticket_with_llm(ticket_text: str) -> TicketTriage:
-    try:
-        response = client.messages.create(
+
+def _call_api(ticket_text: str):
+    return client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=512,
-        temperature = 0,
+        temperature=0,
         system=TRIAGE_PROMPT_TEMPLATE,
         tools=[{
             "name": "triage_ticket",
@@ -31,6 +31,11 @@ def triage_ticket_with_llm(ticket_text: str) -> TicketTriage:
         tool_choice={"type": "tool", "name": "triage_ticket"},
         messages=[{"role": "user", "content": ticket_text}]
     )
+
+
+def triage_ticket_with_llm(ticket_text: str) -> TicketTriage:
+    try:
+        response = _call_api(ticket_text)
         parsed = response.content[0].input
         triage = TicketTriage(**parsed)
         triage.warnings = generate_warnings(ticket_text, triage)
@@ -38,3 +43,15 @@ def triage_ticket_with_llm(ticket_text: str) -> TicketTriage:
 
     except anthropic.APIError as e:
         raise HTTPException(status_code=500, detail=f"API Error: {str(e)}")
+
+
+def triage_ticket_with_usage(ticket_text: str) -> tuple[TicketTriage, dict]:
+    response = _call_api(ticket_text)
+    parsed = response.content[0].input
+    triage = TicketTriage(**parsed)
+    triage.warnings = generate_warnings(ticket_text, triage)
+    usage = {
+        "input_tokens": response.usage.input_tokens,
+        "output_tokens": response.usage.output_tokens,
+    }
+    return triage, usage

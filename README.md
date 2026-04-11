@@ -154,6 +154,14 @@ I chose Claude Haiku because classification doesn't require frontier reasoning c
 
 The fix was to switch to tool use. Instead of generating text, the model fills in a structured input object defined by a JSON schema. This eliminates the code-fencing problem and removes a wider class of failure modes: malformed JSON, missing required fields, and invalid enum values are all impossible when the model is constrained to a schema. This also removed the need for a retry path and format validation logic.
 
+### Temperature and eval reliability
+
+When running the eval before setting temperature, results varied between runs for the same input. I found out this is because the default temperature of `1.0` means the model samples from a probability distribution when selecting each token, so borderline classifications like `medium` vs `high` urgency can go either way depending on the random draw.
+
+Setting `temperature=0` forces the model to always pick the highest probability token, making outputs fully deterministic. The same ticket will always produce the same result, which is a requirement for a meaningful eval, without it you can't tell whether a change to the prompt actually improved accuracy or you just got a luckier random sample.
+
+For classification tasks, `temperature=0` is almost always the right choice. Randomness is useful for creative tasks where variation is desirable; for triage, there is a single most defensible answer and consistency is more valuable than creativity.
+
 ### Prompt context matters for consistent classification
 
 The initial system prompt was intentionally minimal. The first eval run (see below) revealed that urgency was by far the most inconsistent field. The model had no company context and no explicit definitions for urgency levels, so it applied generic heuristics and tended to over-escalate — presumably because overestimating urgency is safer than underestimating it.

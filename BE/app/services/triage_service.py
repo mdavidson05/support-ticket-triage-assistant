@@ -10,6 +10,7 @@ def triage_ticket_with_llm(ticket_text: str) -> TicketTriage:
         response = client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=512,
+        temperature = 0,
         system=TRIAGE_PROMPT_TEMPLATE,
         tools=[{
             "name": "triage_ticket",

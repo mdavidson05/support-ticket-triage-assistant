@@ -1,0 +1,323 @@
+{
+  "timestamp": "2026-04-11_125057",
+  "total": 15,
+  "passed": 10,
+  "accuracy_pct": 66,
+  "tickets": [
+    {
+      "ticket_id": "t1",
+      "fields": {
+        "category": {
+          "expected": "authentication",
+          "actual": "authentication",
+          "match": true
+        },
+        "urgency": {
+          "expected": "critical",
+          "actual": "critical",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "account_access",
+          "actual": "account_access",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t2",
+      "fields": {
+        "category": {
+          "expected": "billing",
+          "actual": "billing",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "billing_ops",
+          "actual": "billing_ops",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t3",
+      "fields": {
+        "category": {
+          "expected": "bug",
+          "actual": "bug",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "medium",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t4",
+      "fields": {
+        "category": {
+          "expected": "performance",
+          "actual": "performance",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t5",
+      "fields": {
+        "category": {
+          "expected": "bug",
+          "actual": "bug",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t6",
+      "fields": {
+        "category": {
+          "expected": "feature_request",
+          "actual": "feature_request",
+          "match": true
+        },
+        "urgency": {
+          "expected": "low",
+          "actual": "low",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "product_support",
+          "actual": "product_support",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t7",
+      "fields": {
+        "category": {
+          "expected": "account_management",
+          "actual": "account_management",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "general_support",
+          "actual": "account_access",
+          "match": false
+        }
+      },
+      "pass": false
+    },
+    {
+      "ticket_id": "t8",
+      "fields": {
+        "category": {
+          "expected": "authentication",
+          "actual": "authentication",
+          "match": true
+        },
+        "urgency": {
+          "expected": "critical",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "account_access",
+          "actual": "account_access",
+          "match": true
+        }
+      },
+      "pass": false
+    },
+    {
+      "ticket_id": "t9",
+      "fields": {
+        "category": {
+          "expected": "billing",
+          "actual": "billing",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "billing_ops",
+          "actual": "billing_ops",
+          "match": true
+        }
+      },
+      "pass": false
+    },
+    {
+      "ticket_id": "t10",
+      "fields": {
+        "category": {
+          "expected": "authentication",
+          "actual": "authentication",
+          "match": true
+        },
+        "urgency": {
+          "expected": "critical",
+          "actual": "critical",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "account_access",
+          "actual": "account_access",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t11",
+      "fields": {
+        "category": {
+          "expected": "integration",
+          "actual": "integration",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "integrations_team",
+          "actual": "integrations_team",
+          "match": true
+        }
+      },
+      "pass": false
+    },
+    {
+      "ticket_id": "t12",
+      "fields": {
+        "category": {
+          "expected": "account_management",
+          "actual": "account_management",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "medium",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "product_support",
+          "actual": "product_support",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t13",
+      "fields": {
+        "category": {
+          "expected": "billing",
+          "actual": "billing",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "high",
+          "match": false
+        },
+        "suggested_team": {
+          "expected": "billing_ops",
+          "actual": "billing_ops",
+          "match": true
+        }
+      },
+      "pass": false
+    },
+    {
+      "ticket_id": "t14",
+      "fields": {
+        "category": {
+          "expected": "bug",
+          "actual": "bug",
+          "match": true
+        },
+        "urgency": {
+          "expected": "high",
+          "actual": "high",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "support_engineering",
+          "actual": "support_engineering",
+          "match": true
+        }
+      },
+      "pass": true
+    },
+    {
+      "ticket_id": "t15",
+      "fields": {
+        "category": {
+          "expected": "feature_request",
+          "actual": "feature_request",
+          "match": true
+        },
+        "urgency": {
+          "expected": "medium",
+          "actual": "medium",
+          "match": true
+        },
+        "suggested_team": {
+          "expected": "product_support",
+          "actual": "product_support",
+          "match": true
+        }
+      },
+      "pass": true
+    }
+  ]
+}

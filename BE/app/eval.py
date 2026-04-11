@@ -1,11 +1,28 @@
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from app.services.triage_service import triage_ticket_with_llm
 
 TEST_TICKETS_PATH = Path(__file__).parent.parent / "data" / "samples" / "tickets.json"
+EVAL_RESULTS_DIR = Path(__file__).parent.parent / "data" / "eval_results"
 SCORED_FIELDS = ["category", "urgency", "suggested_team"]
+
+
+def save_results(results, passed, total):
+    EVAL_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    output = {
+        "timestamp": timestamp,
+        "total": total,
+        "passed": passed,
+        "accuracy_pct": 100 * passed // total,
+        "tickets": results,
+    }
+    path = EVAL_RESULTS_DIR / f"eval_{timestamp}.json"
+    path.write_text(json.dumps(output, indent=2))
+    print(f"Results saved to {path}")
 
 
 def run_eval():
@@ -60,6 +77,8 @@ def run_eval():
             for field, v in r["fields"].items():
                 if not v["match"]:
                     print(f"    {field}: expected={v['expected']}  actual={v['actual']}")
+
+    save_results(results, passed, total)
 
     return passed == total
 
